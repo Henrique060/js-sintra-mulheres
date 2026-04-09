@@ -48,15 +48,46 @@
         color: white;
         cursor: pointer;
         white-space: nowrap;
+        position: absolute;
+        bottom: 90px;
+        
 
         transition: transform 0.2s ease, background-color 0.2s ease;
       }
+
+      .tutorial-text-container{
+        font-family: "Fira Sans";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        background-color:#cc4545 ;
+        color: white;
+        border-radius: 30px;
+        padding: 20px; 
+        width:80%
+      }
+
+      .tutorial-text-container p{
+        font-size: 18px;
+      }
     </style>
-    <img class="logo" src="./public/imgs/js-logo.png" alt="Overlay Image">
+    <a href="index.html">
+      <img class="logo" src="./public/imgs/js-logo.png" alt="Overlay Image">
+    </a>
+
 
     <div id="overlay">
-      
-      <button id="startButton">Clique para <br/>Realidade Aumentada</button>
+        <div class="tutorial-text-container">
+            <h2 class="tutorial-text">Como funciona a experiência de Realidade Aumentada?
+                <p> Aponte a câmara para o interior do panfleto (desdobrado), enquadrando-o, de modo a observar
+                    os elementos que emergem do mesmo.
+                </p>
+            </h2>
+        </div>
+
+      <button id="startButton"><b>Iniciar Realidade Aumentada</b></button>
     </div>
 
     <a-scene
