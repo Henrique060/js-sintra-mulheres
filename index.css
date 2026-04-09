@@ -1,0 +1,69 @@
+body, html {
+    font-family: "Fira Sans", sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+
+    overflow: hidden;
+
+    background-color: #FF5657;
+    background-image: url("./public/imgs/js-mulheres.png");
+
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover; /* makes it fill nicely and stay centered */
+}
+
+/* wrapper stays full screen */
+.main-wrapper {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+
+}
+
+/* container positioned near bottom center */
+.main-btn-container {
+    position: absolute;
+    bottom: 150px; /* distance from bottom */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* button styling */
+.btn {
+    font-family: "Fira Sans";
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 30px; /* fully rounded */
+    background-color: #cc4545; /* slightly darker than #FF5657 */
+    color: white;
+    cursor: pointer;
+    white-space: nowrap;
+
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+/* optional hover effect */
+.btn:hover {
+    transform: scale(1.05);
+    background-color: #b33b3b;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    color: white;
+    font-size: 14px;
+    text-align: center;
+    background-color: #b33b3b;
+    padding: 10px 0;
+}
+
+a{
+    text-decoration: none;
+}
