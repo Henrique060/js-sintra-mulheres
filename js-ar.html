@@ -12,10 +12,9 @@
 
   <body>
     <style>
-        
-        body{
-            background-color: #FF5657;
-        }
+      body{
+        background-color: #FF5657;
+      }
       #overlay {
         position: fixed;
         top: 0;
@@ -37,21 +36,18 @@
         z-index: 10000;
       }
 
-
       #overlay button {
         font-family: "Fira Sans";
         padding: 15px 30px;
         font-size: 18px;
         border: none;
-        border-radius: 30px; /* fully rounded */
-        background-color: #cc4545; /* slightly darker than #FF5657 */
+        border-radius: 30px;
+        background-color: #cc4545;
         color: white;
         cursor: pointer;
         white-space: nowrap;
         position: absolute;
         bottom: 90px;
-        
-
         transition: transform 0.2s ease, background-color 0.2s ease;
       }
 
@@ -73,20 +69,21 @@
         font-size: 18px;
       }
     </style>
+
     <a href="index.html">
       <img class="logo" src="./public/imgs/js-logo.png" alt="Overlay Image">
     </a>
 
-
     <div id="overlay">
-        <div class="tutorial-text-container">
-            <h2 class="tutorial-text">Como funciona a experiência de Realidade Aumentada?
-                <p> Aponte a câmara para o interior do panfleto (desdobrado), enquadrando-o, de modo a observar
-                    os elementos que emergem do mesmo.
-                </p>
-            </h2>
-        </div>
-
+      <div class="tutorial-text-container">
+        <h2 class="tutorial-text">
+          Como funciona a experiência de Realidade Aumentada?
+          <p>
+            Aponte a câmara para o interior do panfleto (desdobrado), enquadrando-o, de modo a observar
+            os elementos que emergem do mesmo.
+          </p>
+        </h2>
+      </div>
       <button id="startButton"><b>Iniciar Realidade Aumentada</b></button>
     </div>
 
@@ -97,84 +94,89 @@
       vr-mode-ui="enabled: false"
       device-orientation-permission-ui="enabled: false"
     >
-    <a-camera position="0 0 0" look-controls="enabled: false">
+      <!-- Single camera with cursor -->
+      <a-camera position="0 0 0" look-controls="enabled: false">
         <a-cursor fuse="false" rayOrigin="mouse"></a-cursor>
-    </a-camera>
+      </a-camera>
 
       <a-assets>
         <a-asset-item id="jsModelAsset" src="./public/models/jsigualdadegenero.glb"></a-asset-item>
         <video id="jsVideoAsset" src="./public/videos/mariasoares.mp4" preload="auto" loop="true" muted="true"></video>
       </a-assets>
 
-      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+      <!-- TARGET (FIXED) -->
+      <a-entity mindar-image-target="targetIndex: 0" id="target">
 
-      <a-entity id="modelContainer">
-            <!-- Invisible hitbox -->
-            <a-box 
-                id="hitbox"
-                position="0 0 0"
-                scale="2 2 2"
-                material="opacity: 0; transparent: true"
-            ></a-box>
+        <a-entity id="modelContainer">
+          <!-- Invisible hitbox -->
+          <a-box 
+            id="hitbox"
+            position="0 0 0"
+            scale="2 2 2"
+            material="opacity: 0; transparent: true"
+            visible="false"
+          ></a-box>
 
-            <!-- Your model -->
-            <a-gltf-model
-                id="model"
-                src="#jsModelAsset"
-                position="0 0 0"
-                rotation="180 90 90"
-                scale="3 3 3"
-                visible="false"
-            ></a-gltf-model>
+          <!-- Model -->
+          <a-gltf-model
+            id="model"
+            src="#jsModelAsset"
+            position="0 0 0"
+            rotation="180 90 90"
+            scale="3 3 3"
+            visible="false"
+          ></a-gltf-model>
         </a-entity>
 
-<!-- Hide video initially -->
+        <!-- Video -->
         <a-video 
-            id="video"
-            src="#jsVideoAsset"
-            position="0 0 0"
-            rotation="0 0 0"
-            width="1.5"
-            height="1"
-            visible="false"
-            >
-        </a-video>
+          id="video"
+          src="#jsVideoAsset"
+          position="0 0 0"
+          rotation="0 0 0"
+          width="1.5"
+          height="1"
+          visible="false"
+        ></a-video>
+
+      </a-entity>
     </a-scene>
 
-   <script>
-        const startButton = document.querySelector("#startButton");
-        const overlay = document.querySelector("#overlay");
-        const target = document.querySelector("#target");
+    <script>
+      const startButton = document.querySelector("#startButton");
+      const overlay = document.querySelector("#overlay");
+      const target = document.querySelector("#target");
 
-        const model = document.querySelector("#model");
-        const hitbox = document.querySelector("#hitbox");
-        const video = document.querySelector("#video");
-        const videoAsset = document.querySelector("#jsVideoAsset");
+      const model = document.querySelector("#model");
+      const hitbox = document.querySelector("#hitbox");
+      const video = document.querySelector("#video");
+      const videoAsset = document.querySelector("#jsVideoAsset");
 
-        // Start AR
-        startButton.addEventListener("click", () => {
-            overlay.style.display = "none";
-        });
+      // Start AR
+      startButton.addEventListener("click", () => {
+        overlay.style.display = "none";
+      });
 
-        // Show/hide model when tracking
-        target.addEventListener("targetFound", () => {
-            model.setAttribute("visible", true);
-            hitbox.setAttribute("visible", true);
-        });
+      // Target found
+      target.addEventListener("targetFound", () => {
+        model.setAttribute("visible", true);
+        hitbox.setAttribute("visible", true);
+      });
 
-        target.addEventListener("targetLost", () => {
-            model.setAttribute("visible", false);
-            hitbox.setAttribute("visible", false);
+      // Target lost
+      target.addEventListener("targetLost", () => {
+        model.setAttribute("visible", false);
+        hitbox.setAttribute("visible", false);
 
-            video.setAttribute("visible", false);
-            videoAsset.pause();
-        });
+        video.setAttribute("visible", false);
+        videoAsset.pause();
+      });
 
-        // Tap on model (via hitbox)
-        hitbox.addEventListener("click", () => {
-            video.setAttribute("visible", true);
-            videoAsset.play();
-        });
+      // Tap hitbox → show video
+      hitbox.addEventListener("click", () => {
+        video.setAttribute("visible", true);
+        videoAsset.play();
+      });
     </script>
   </body>
 </html>
