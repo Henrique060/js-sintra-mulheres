@@ -101,7 +101,6 @@
 
       <a-assets>
         <a-asset-item id="jsModelAsset" src="./public/models/jsmodels-6.glb"></a-asset-item>
-        <a-asset-item id="jsbtn" src="./public/models/js-btn.glb"></a-asset-item>
         <video id="jsVideoAsset" src="./public/videos/mariasoares.mp4" preload="auto" loop="true" muted="true"></video>
       </a-assets>
 
@@ -124,16 +123,6 @@
           ></a-gltf-model>
         </a-entity>
 
-        <a-gltf-model
-          id="buttonModel"
-          src="#jsbtn"
-          position="0 0 0"
-          rotation="0 0 0"
-          scale="1 1 1"
-          visible="false"
-          class="clickable"
-        ></a-gltf-model>
-
         <!-- Video -->
         <a-video 
           id="video"
@@ -153,7 +142,7 @@
         const overlay = document.querySelector("#overlay");
         const target = document.querySelector("#target");
 
-        const model = document.querySelector("#buttonModel");
+        const model = document.querySelector("#model");
         const video = document.querySelector("#video");
         const videoAsset = document.querySelector("#jsVideoAsset");
 
