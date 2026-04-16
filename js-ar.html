@@ -119,6 +119,7 @@
             scale="3 3 3"
             visible="false"
             material="depthWrite: false"
+            class="clickable"
           ></a-gltf-model>
         </a-entity>
 
@@ -137,52 +138,35 @@
     </a-scene>
 
     <script>
-      const startButton = document.querySelector("#startButton");
-      const overlay = document.querySelector("#overlay");
-      const target = document.querySelector("#target");
+        const startButton = document.querySelector("#startButton");
+        const overlay = document.querySelector("#overlay");
+        const target = document.querySelector("#target");
 
-      const model = document.querySelector("#model");
-      const video = document.querySelector("#video");
-      const videoAsset = document.querySelector("#jsVideoAsset");
+        const model = document.querySelector("#model");
+        const video = document.querySelector("#video");
+        const videoAsset = document.querySelector("#jsVideoAsset");
 
-      model.addEventListener('model-loaded', () => {
-        const mesh = model.getObject3D('mesh');
-        mesh.traverse((node) => {
-            if (node.isMesh) {
-            // This prevents the "disappearing act" when moving the phone
-            node.frustumCulled = false; 
-            
-            // Ensure the material is actually treating transparency correctly
-            node.material.depthWrite = true;
-            }
-        });
+        // Start AR
+        startButton.addEventListener("click", () => {
+            overlay.style.display = "none";
         });
 
-      // Start AR
-      startButton.addEventListener("click", () => {
-        overlay.style.display = "none";
-      });
+        // Show model when target found
+        target.addEventListener("targetFound", () => {
+            model.setAttribute("visible", true);
+        });
 
-      // Target found
-      target.addEventListener("targetFound", () => {
-        model.setAttribute("visible", true);
-        hitbox.setAttribute("visible", true);
-      });
+        target.addEventListener("targetLost", () => {
+            model.setAttribute("visible", false);
+            video.setAttribute("visible", false);
+            videoAsset.pause();
+        });
 
-      // Target lost
-      target.addEventListener("targetLost", () => {
-        model.setAttribute("visible", false);
-        hitbox.setAttribute("visible", false);
-
-        video.setAttribute("visible", false);
-        videoAsset.pause();
-      });
-
-      // Tap hitbox → show video
-      hitbox.addEventListener("click", () => {
-        video.setAttribute("visible", true);
-        videoAsset.play();
-      });
+        // CLICK MODEL → PLAY VIDEO
+        model.addEventListener("click", () => {
+            video.setAttribute("visible", true);
+            videoAsset.play();
+        });
     </script>
   </body>
 </html>
