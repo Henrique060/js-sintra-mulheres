@@ -172,7 +172,7 @@
       <a-assets>
         <a-asset-item id="jsModelAsset" src="./public/models/jsmodels-9.glb"></a-asset-item>
         <video id="jsVideoAsset" src="./public/videos/mariasoares.mp4" preload="auto" loop="true"></video>
-        <img id="ribbonImage" src="./public/imgs/js-palacio-ribbon.png" />
+        <img id="ribbonImage" src="./public/imgs/js-palacio-ribbon.png" preload="auto"/>
       </a-assets>
 
       <a-entity mindar-image-target="targetIndex: 0" id="target">
@@ -273,6 +273,7 @@
 
 
   target2.addEventListener("targetFound", () => {
+    console.log("Target 2 has been found");
     ribbon.setAttribute("visible", true);
     });
 
@@ -280,7 +281,7 @@
     ribbon.setAttribute("visible", false);
     });
 
-    
+
   // Wait for scene canvas to exist (important for AR touch)
   scene.addEventListener("loaded", () => {
     const canvas = scene.canvas;
