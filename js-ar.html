@@ -101,6 +101,7 @@
 
       <a-assets>
         <a-asset-item id="jsModelAsset" src="./public/models/jsmodels-6.glb"></a-asset-item>
+        <a-asset-item id="jsBtn" src="./public/models/js-btn.glb"></a-asset-item>
         <video id="jsVideoAsset" src="./public/videos/mariasoares.mp4" preload="auto" loop="true" muted="true"></video>
       </a-assets>
 
@@ -121,6 +122,17 @@
             material="depthWrite: false"
             class="clickable"
           ></a-gltf-model>
+
+          <a-gltf-model
+            id="buttonModel"
+            src="#jsBtn"
+            position="0 0 0"
+            rotation="0 0 0"
+            scale="1 1 1"
+            visible="false"
+            class="clickable"
+          ></a-gltf-model>
+          
         </a-entity>
 
         <!-- Video -->
