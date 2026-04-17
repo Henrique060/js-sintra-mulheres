@@ -100,6 +100,23 @@
         justify-content: center;
         align-items: center;
     }
+
+    #audioHint {
+        position: fixed;
+        bottom: 25px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #cc4545;
+        color: white;
+        font-family: "Fira Sans";
+        font-size: 14px;
+        padding: 10px 18px;
+        border-radius: 20px;
+        z-index: 9998;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        }
     </style>
 
     <a href="index.html">
@@ -114,6 +131,10 @@
             </br>
             </p>
         </div>
+    </div>
+
+    <div id="audioHint">
+        Toque para ouvir Maria Soares
     </div>
 
     <div id="overlay">
@@ -235,7 +256,15 @@
   // Start AR
   startButton.addEventListener("click", () => {
     overlay.style.display = "none";
-  });
+
+    const audioHint = document.querySelector("#audioHint");
+    audioHint.style.opacity = "1";
+
+    // optional: hide after a few seconds
+    setTimeout(() => {
+        audioHint.style.opacity = "0";
+    }, 5000);
+    });
 
   // Target found
   target.addEventListener("targetFound", () => {
