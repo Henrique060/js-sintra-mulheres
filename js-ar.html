@@ -170,7 +170,6 @@
 
       <a-assets>
         <a-asset-item id="jsModelAsset" src="./public/models/jsmodels-8.glb"></a-asset-item>
-        <a-asset-item id="jsBtn" src="./public/models/js-btn.glb"></a-asset-item>
         <video id="jsVideoAsset" src="./public/videos/mariasoares.mp4" preload="auto" loop="true"></video>
       </a-assets>
 
@@ -187,27 +186,6 @@
             material="depthWrite: false"
             class="clickable"
           ></a-gltf-model>
-        </a-entity>
-
-        <a-entity id="buttonWrapper" position="0 0.5 0" rotation="0 0 0" scale="1 1 1">
-          <a-gltf-model
-            id="buttonModel"
-            src="#jsBtn"
-            position="0.25 -0.6 0"
-            rotation="0 0 0"
-            scale="1.5 1.5 1.5"
-            visible="false"
-          ></a-gltf-model>
-
-          <a-plane
-            id="buttonHitbox"
-            position="0 0 0"
-            width="2"
-            height="2"
-            material="opacity: 0; transparent: true"
-            visible="false"
-            class="clickable"
-          ></a-plane>
         </a-entity>
 
         <a-video 
@@ -232,8 +210,6 @@
   const model = document.querySelector("#model");
   const video = document.querySelector("#video");
   const videoAsset = document.querySelector("#jsVideoAsset");
-  const buttonModel = document.querySelector("#buttonModel");
-  const buttonHitbox = document.querySelector("#buttonHitbox");
 
   const helpButton = document.querySelector("#helpButton");
   const helpOverlay = document.querySelector("#helpOverlay");
@@ -259,27 +235,18 @@
 
     const audioHint = document.querySelector("#audioHint");
     audioHint.style.opacity = "1";
-
-    // optional: hide after a few seconds
-    setTimeout(() => {
-        audioHint.style.opacity = "0";
-    }, 5000);
     });
 
   // Target found
   target.addEventListener("targetFound", () => {
     targetVisible = true;
     model.setAttribute("visible", true);
-    buttonModel.setAttribute("visible", true);
-    buttonHitbox.setAttribute("visible", true);
   });
 
   // Target lost
   target.addEventListener("targetLost", () => {
     targetVisible = false;
     model.setAttribute("visible", false);
-    buttonModel.setAttribute("visible", false);
-    buttonHitbox.setAttribute("visible", false);
 
     video.setAttribute("visible", false);
     videoAsset.pause();
