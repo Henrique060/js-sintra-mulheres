@@ -68,11 +68,51 @@
       .tutorial-text-container p{
         font-size: 18px;
       }
+
+      #helpButton {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        background-color: #cc4545;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: "Fira Sans";
+        font-weight: bold;
+        font-size: 20px;
+        z-index: 10000;
+        cursor: pointer;
+    }
+
+    #helpOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 9999;
+        display: none;
+        justify-content: center;
+        align-items: center;
+    }
     </style>
 
     <a href="index.html">
       <img class="logo" src="./public/imgs/js-logo.png" alt="Overlay Image">
     </a>
+
+    <div id="helpButton">?</div>
+    <div id="helpOverlay">
+        <div class="tutorial-text-container">
+            <h2>Ajuda</h2>
+            <p>here's a sample text</p>
+        </div>
+    </div>
 
     <div id="overlay">
       <div class="tutorial-text-container">
@@ -172,8 +212,23 @@
   const buttonModel = document.querySelector("#buttonModel");
   const buttonHitbox = document.querySelector("#buttonHitbox");
 
+  const helpButton = document.querySelector("#helpButton");
+  const helpOverlay = document.querySelector("#helpOverlay");
+
   let isVideoOpen = false;
   let targetVisible = false;
+
+  
+ /*help btn overlay*/
+  helpButton.addEventListener("click", () => {
+    helpOverlay.style.display = "flex";
+  });
+
+  helpOverlay.addEventListener("click", () => {
+    helpOverlay.style.display = "none";
+  });
+
+
 
   // Start AR
   startButton.addEventListener("click", () => {
