@@ -161,53 +161,69 @@
     </a-scene>
 
     <script>
-      const startButton = document.querySelector("#startButton");
-      const overlay = document.querySelector("#overlay");
-      const target = document.querySelector("#target");
+  const startButton = document.querySelector("#startButton");
+  const overlay = document.querySelector("#overlay");
+  const scene = document.querySelector("a-scene");
+  const target = document.querySelector("#target");
 
-      const model = document.querySelector("#model");
-      const video = document.querySelector("#video");
-      const videoAsset = document.querySelector("#jsVideoAsset");
-      const buttonModel = document.querySelector("#buttonModel");
-      const buttonHitbox = document.querySelector("#buttonHitbox");
+  const model = document.querySelector("#model");
+  const video = document.querySelector("#video");
+  const videoAsset = document.querySelector("#jsVideoAsset");
+  const buttonModel = document.querySelector("#buttonModel");
+  const buttonHitbox = document.querySelector("#buttonHitbox");
 
-      let isVideoOpen = false;
-      let targetVisible = false;
+  let isVideoOpen = false;
+  let targetVisible = false;
 
-      startButton.addEventListener("click", () => {
-        overlay.style.display = "none";
-      });
+  // Start AR
+  startButton.addEventListener("click", () => {
+    overlay.style.display = "none";
+  });
 
-      target.addEventListener("targetFound", () => {
-        model.setAttribute("visible", true);
-        buttonModel.setAttribute("visible", true);
-        buttonHitbox.setAttribute("visible", true);
-        targetVisible = true;
-      });
+  // Target found
+  target.addEventListener("targetFound", () => {
+    targetVisible = true;
+    model.setAttribute("visible", true);
+    buttonModel.setAttribute("visible", true);
+    buttonHitbox.setAttribute("visible", true);
+  });
 
-      target.addEventListener("targetLost", () => {
-        model.setAttribute("visible", false);
+  // Target lost
+  target.addEventListener("targetLost", () => {
+    targetVisible = false;
+    model.setAttribute("visible", false);
+    buttonModel.setAttribute("visible", false);
+    buttonHitbox.setAttribute("visible", false);
+
+    video.setAttribute("visible", false);
+    videoAsset.pause();
+    isVideoOpen = false;
+  });
+
+  // Wait for scene canvas to exist (important for AR touch)
+  scene.addEventListener("loaded", () => {
+    const canvas = scene.canvas;
+
+    const handleTap = () => {
+      if (!targetVisible) return;
+
+      if (!isVideoOpen) {
+        video.setAttribute("visible", true);
+        videoAsset.play();
+        isVideoOpen = true;
+      } else {
         video.setAttribute("visible", false);
-        buttonModel.setAttribute("visible", false);
-        buttonHitbox.setAttribute("visible", false);
         videoAsset.pause();
         isVideoOpen = false;
-        targetVisible = false;
-      });
+      }
+    };
 
-      document.addEventListener("click", () => {
-        if (!targetVisible) return;
+    // Mobile
+    canvas.addEventListener("touchstart", handleTap);
 
-        if (!isVideoOpen) {
-          video.setAttribute("visible", true);
-          videoAsset.play();
-          isVideoOpen = true;
-        } else {
-          video.setAttribute("visible", false);
-          videoAsset.pause();
-          isVideoOpen = false;
-        }
-      });
-    </script>
+    // Desktop fallback
+    canvas.addEventListener("click", handleTap);
+  });
+</script>
   </body>
 </html>
