@@ -247,6 +247,7 @@
   target.addEventListener("targetLost", () => {
     targetVisible = false;
     model.setAttribute("visible", false);
+    audioHint.style.opacity = "0";
 
     video.setAttribute("visible", false);
     videoAsset.pause();
