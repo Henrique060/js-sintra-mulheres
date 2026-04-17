@@ -211,10 +211,12 @@
         video.setAttribute("visible", true);
         videoAsset.play();
         isVideoOpen = true;
+        model.setAttribute("visible", false);
       } else {
         video.setAttribute("visible", false);
         videoAsset.pause();
         isVideoOpen = false;
+        model.setAttribute("visible", true);
       }
     };
 
