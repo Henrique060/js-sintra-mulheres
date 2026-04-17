@@ -127,9 +127,10 @@
     <div id="helpOverlay">
         <div class="tutorial-text-container">
             <h2>Ajuda</h2>
-            <p>Basta alinhar o panfleto com a câmara. Para visualizar o vídeo, toque em qualquer lado do ecrã. Toque de novo para fechar. 
+            <p>Basta alinhar o panfleto com a câmara. Para visualizar o vídeo, toque em qualquer lado do ecrã, tocando de novo de modo a parar. 
             </br>
             </p>
+            <h3>Toque para fechar esta janela.</h3>
         </div>
     </div>
 
@@ -213,6 +214,7 @@
 
   const helpButton = document.querySelector("#helpButton");
   const helpOverlay = document.querySelector("#helpOverlay");
+  const audioHint = document.querySelector("#audioHint");
 
   let isVideoOpen = false;
   let targetVisible = false;
@@ -232,15 +234,13 @@
   // Start AR
   startButton.addEventListener("click", () => {
     overlay.style.display = "none";
-
-    const audioHint = document.querySelector("#audioHint");
-    audioHint.style.opacity = "1";
     });
 
   // Target found
   target.addEventListener("targetFound", () => {
     targetVisible = true;
     model.setAttribute("visible", true);
+    audioHint.style.opacity = "1";
   });
 
   // Target lost
