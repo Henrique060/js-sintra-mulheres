@@ -94,8 +94,14 @@
       vr-mode-ui="enabled: false"
       device-orientation-permission-ui="enabled: false"
     >
-      <!-- Single camera with cursor -->
-      <a-camera position="0 0 0" look-controls="enabled: false" near="0.001" far="1000">
+      <a-camera 
+        position="0 0 0" 
+        look-controls="enabled: false" 
+        near="0.001" 
+        far="1000"
+        cursor="rayOrigin: mouse"
+        raycaster="objects: .clickable"
+      >
         <a-cursor fuse="false" rayOrigin="mouse"></a-cursor>
       </a-camera>
 
@@ -105,12 +111,10 @@
         <video id="jsVideoAsset" src="./public/videos/mariasoares.mp4" preload="auto" loop="true" muted="true"></video>
       </a-assets>
 
-      <!-- TARGET (FIXED) -->
       <a-entity mindar-image-target="targetIndex: 0" id="target">
 
-  <!-- MAIN MODEL WRAPPER -->
         <a-entity id="modelWrapper" position="0 0 0" rotation="0 0 0" scale="1 1 1">
-            <a-gltf-model
+          <a-gltf-model
             id="model"
             src="#jsModelAsset"
             position="0 0 0"
@@ -119,73 +123,86 @@
             visible="false"
             material="depthWrite: false"
             class="clickable"
-            ></a-gltf-model>
+          ></a-gltf-model>
         </a-entity>
 
-        <!-- BUTTON WRAPPER -->
         <a-entity id="buttonWrapper" position="0 0.5 0" rotation="0 0 0" scale="1 1 1">
-            <a-gltf-model
+          <a-gltf-model
             id="buttonModel"
             src="#jsBtn"
             position="0 0 0"
             rotation="0 0 0"
             scale="3.2 3.2 3.2"
             visible="false"
+          ></a-gltf-model>
+
+          <a-plane
+            id="buttonHitbox"
+            position="0 0 0"
+            width="2"
+            height="2"
+            material="opacity: 0; transparent: true"
+            visible="false"
             class="clickable"
-            ></a-gltf-model>
+          ></a-plane>
         </a-entity>
 
-        <!-- VIDEO -->
         <a-video 
-            id="video"
-            src="#jsVideoAsset"
-            position="0 0 0"
-            rotation="0 0 0"
-            width="1.5"
-            height="1"
-            visible="false"
+          id="video"
+          src="#jsVideoAsset"
+          position="0 0 0"
+          rotation="0 0 0"
+          width="1.5"
+          height="1"
+          visible="false"
         ></a-video>
 
-        </a-entity>
+      </a-entity>
     </a-scene>
 
     <script>
-        const startButton = document.querySelector("#startButton");
-        const overlay = document.querySelector("#overlay");
-        const target = document.querySelector("#target");
+      const startButton = document.querySelector("#startButton");
+      const overlay = document.querySelector("#overlay");
+      const target = document.querySelector("#target");
 
-        const model = document.querySelector("#model");
-        const video = document.querySelector("#video");
-        const videoAsset = document.querySelector("#jsVideoAsset");
-        const buttonModel = document.querySelector("#buttonModel");
+      const model = document.querySelector("#model");
+      const video = document.querySelector("#video");
+      const videoAsset = document.querySelector("#jsVideoAsset");
+      const buttonModel = document.querySelector("#buttonModel");
+      const buttonHitbox = document.querySelector("#buttonHitbox");
 
-        // Start AR
-        startButton.addEventListener("click", () => {
-            overlay.style.display = "none";
-        });
+      let isVideoOpen = false;
 
-        // Show model when target found
-        target.addEventListener("targetFound", () => {
-            model.setAttribute("visible", true);
-        });
+      startButton.addEventListener("click", () => {
+        overlay.style.display = "none";
+      });
 
-        target.addEventListener("targetFound", () => {
-            model.setAttribute("visible", true);
-            buttonModel.setAttribute("visible", true);
-        });
+      target.addEventListener("targetFound", () => {
+        model.setAttribute("visible", true);
+        buttonModel.setAttribute("visible", true);
+        buttonHitbox.setAttribute("visible", true);
+      });
 
-        target.addEventListener("targetLost", () => {
-            model.setAttribute("visible", false);
-            video.setAttribute("visible", false);
-            buttonModel.setAttribute("visible", false);
-            videoAsset.pause();
-        });
+      target.addEventListener("targetLost", () => {
+        model.setAttribute("visible", false);
+        video.setAttribute("visible", false);
+        buttonModel.setAttribute("visible", false);
+        buttonHitbox.setAttribute("visible", false);
+        videoAsset.pause();
+        isVideoOpen = false;
+      });
 
-        // CLICK MODEL → PLAY VIDEO
-        buttonModel.addEventListener("click", () => {
-            video.setAttribute("visible", true);
-            videoAsset.play();
-        });
+      buttonHitbox.addEventListener("click", () => {
+        if (!isVideoOpen) {
+          video.setAttribute("visible", true);
+          videoAsset.play();
+          isVideoOpen = true;
+        } else {
+          video.setAttribute("visible", false);
+          videoAsset.pause();
+          isVideoOpen = false;
+        }
+      });
     </script>
   </body>
 </html>
