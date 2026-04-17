@@ -172,6 +172,7 @@
       <a-assets>
         <a-asset-item id="jsModelAsset" src="./public/models/jsmodels-9.glb"></a-asset-item>
         <video id="jsVideoAsset" src="./public/videos/mariasoares.mp4" preload="auto" loop="true"></video>
+        <img id="ribbonImage" src="./public/imgs/js-palacio-ribbon.png" />
       </a-assets>
 
       <a-entity mindar-image-target="targetIndex: 0" id="target">
@@ -200,6 +201,19 @@
         ></a-video>
 
       </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 1" id="target2">
+
+        <a-plane
+            id="ribbon"
+            src="#ribbonImage"
+            position="0 0 0"
+            width="1.5"
+            height="0.6"
+            visible="false"
+        ></a-plane>
+
+        </a-entity>
     </a-scene>
 
     <script>
@@ -215,6 +229,9 @@
   const helpButton = document.querySelector("#helpButton");
   const helpOverlay = document.querySelector("#helpOverlay");
   const audioHint = document.querySelector("#audioHint");
+
+  const target2 = document.querySelector("#target2");
+  const ribbon = document.querySelector("#ribbon");
 
   let isVideoOpen = false;
   let targetVisible = false;
@@ -254,6 +271,16 @@
     isVideoOpen = false;
   });
 
+
+  target2.addEventListener("targetFound", () => {
+    ribbon.setAttribute("visible", true);
+    });
+
+  target2.addEventListener("targetLost", () => {
+    ribbon.setAttribute("visible", false);
+    });
+
+    
   // Wait for scene canvas to exist (important for AR touch)
   scene.addEventListener("loaded", () => {
     const canvas = scene.canvas;
