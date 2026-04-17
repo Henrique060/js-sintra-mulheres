@@ -132,7 +132,7 @@
             visible="false"
             class="clickable"
           ></a-gltf-model>
-          
+
         </a-entity>
 
         <!-- Video -->
@@ -157,6 +157,7 @@
         const model = document.querySelector("#model");
         const video = document.querySelector("#video");
         const videoAsset = document.querySelector("#jsVideoAsset");
+        const buttonModel = document.querySelector("#buttonModel");
 
         // Start AR
         startButton.addEventListener("click", () => {
@@ -168,9 +169,15 @@
             model.setAttribute("visible", true);
         });
 
+        target.addEventListener("targetFound", () => {
+            model.setAttribute("visible", true);
+            buttonModel.setAttribute("visible", true);
+        });
+
         target.addEventListener("targetLost", () => {
             model.setAttribute("visible", false);
             video.setAttribute("visible", false);
+            buttonModel.setAttribute("visible", false);
             videoAsset.pause();
         });
 
